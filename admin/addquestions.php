@@ -1,7 +1,10 @@
 <head>
   <meta charset="utf-8">
 </head>
-<?php 
+<?php
+    if($_SESSION['isAuth'] != 1) {
+        echo '<link rel="canonical" href="../">';
+    }
   include_once("DatabaseModel.php");
   $obj = new DatabaseModel();
   $a = $obj -> getTests();

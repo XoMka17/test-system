@@ -29,18 +29,30 @@ if(isset($_POST['login']) && isset($_POST['password'])) {
     $password = $_POST['password'];
 }
 
-if($login == 'admin' && $password = '123') {
+if(isset($_POST['exit'])) {
+    $_SESSION['isAuth'] = 0;
+}
+
+if(($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
+    $_SESSION['isAuth'] = 1;
 
     require_once ("DatabaseModel.php");
 
     $a = new DatabaseModel();
-
     $tests = $a->getTests();
 
 ?>
+
     <h2>Система тестування вас вітає!</h2>
-    <a href="addtest.php">Додати тест</a>
-    <a href="addquestions.php">Додати запитання</a>
+    <a href="admin/addtest.php">Додати тест</a>
+    <a href="admin/addquestions.php">Додати запитання</a>
+
+    <form action="admin.php" method="post">
+        <span>Тест</span>
+        <input type="hidden" name="exit" value="1">
+        <input type="submit" value="Вихід">
+    </form>
+
     <form action="admin.php" method="post">
         <span>Тест</span>
         <select name="test">
@@ -57,8 +69,6 @@ if($login == 'admin' && $password = '123') {
             <option value ="C7 курс">C7 курс</option>
             <option value ="C8 курс">C8 курс</option>
         </select>
-        <input type="hidden" name="login" value="<? echo $login ?>">
-        <input type="hidden" name="password" value="<? echo $password ?>">
         <input type="submit" value="Зайти">
     </form>
 <?php
