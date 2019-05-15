@@ -6,7 +6,6 @@
  * Time: 15:46
  */
 
-
 ?>
 
 <!doctype html>
@@ -22,38 +21,40 @@
 <body>
 
 <?php
+session_start();
 $login = '';
 $password = '';
-if(isset($_POST['login']) && isset($_POST['password'])) {
+if (isset($_POST['login']) && isset($_POST['password'])) {
     $login = $_POST['login'];
     $password = $_POST['password'];
-}
-
-if(isset($_POST['exit'])) {
+} else if (isset($_POST['exit'])) {
     $_SESSION['isAuth'] = 0;
+    unset($_SESSION['isAuth']);
+    session_write_close();
 }
 
-if(($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
+if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
     $_SESSION['isAuth'] = 1;
 
-    require_once ("DatabaseModel.php");
+    require_once("../DatabaseModel.php");
 
     $a = new DatabaseModel();
     $tests = $a->getTests();
 
-?>
+    ?>
 
     <h2>Система тестування вас вітає!</h2>
-    <a href="admin/addtest.php">Додати тест</a>
-    <a href="admin/addquestions.php">Додати запитання</a>
+    <a href="addtest.php">Додати тест</a>
+    <a href="addquestions.php">Додати запитання</a>
 
-    <form action="admin.php" method="post">
-        <span>Тест</span>
+    <form action="index.php" method="post">
         <input type="hidden" name="exit" value="1">
         <input type="submit" value="Вихід">
     </form>
 
-    <form action="admin.php" method="post">
+    <br>
+
+    <form action="index.php" method="post">
         <span>Тест</span>
         <select name="test">
             <?php
@@ -63,78 +64,73 @@ if(($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
             ?>
         </select>
         <select name="division">
-            <option value ="all">Усі</option>
-            <option value ="C5 курс">C5 курс</option>
-            <option value ="C6 курс">C6 курс</option>
-            <option value ="C7 курс">C7 курс</option>
-            <option value ="C8 курс">C8 курс</option>
+            <option value="all">Усі</option>
+            <option value="C5 курс">C5 курс</option>
+            <option value="C6 курс">C6 курс</option>
+            <option value="C7 курс">C7 курс</option>
+            <option value="C8 курс">C8 курс</option>
         </select>
         <input type="submit" value="Зайти">
     </form>
-<?php
+    <?php
 
     $table = [];
 
-    if(isset($_POST['test']) && isset($_POST['division'])) {
+    if (isset($_POST['test']) && isset($_POST['division'])) {
+
         $division = $_POST['division'];
+        $testID = $_POST['test'];
 
         $users = $a->getUsers();
 
         $userTable = [];
-        if($division != 'all') {
-            foreach ($users as $user) {
-                if($user['division'] == $division) {
-                    $user['score'] = unserialize($user['score']);
+        foreach ($users as $user) {
+            if ($user['division'] == $division || $division == 'all') {
 
-                    $testsID = array_keys($user['score']);
+                $user['score'] = unserialize($user['score']);
 
-                    var_dump($testsID);
+                $score = false;
+                foreach ($user['score'] as $userScore) {
 
-//                    foreach ($user['score'] as $userScore) {
-//                        if($userScore == ) {
-//
-//                        }
-//                    }
-                    if($score = 0) {
+                    $key = key($userScore);
 
+                    if ($key == $testID) {
+                        $score = $userScore[$key];
+                        break;
                     }
-                    $user['score'] = $score;
-                    array_push($userTable,$user);
+                }
+
+                if ($score !== false) {
+                    array_push($table, [$user['user'], $user['division'], $user['posada'], $user['rang'], $score]);
                 }
             }
-            $table = [['Назар','С55','Курсант','Солдат','5']];
         }
-
-        $users;
     }
 
-    $table = [['Назар','С55','Курсант','Солдат','5']];
     echo '<table><thead><tr><td>#</td><td>ФІО</td><td>Підрозділ</td><td>Посада</td><td>Звання</td><td>Оцінка</td></tr></thead>';
 
     echo '<tbody>';
     foreach ($table as $key => $tr) {
-        echo '<tr><td>' . $key . '</td><td>' . $tr[0] . '</td><td>' . $tr[1] . '</td><td>' . $tr[2] . '</td>
+        echo '<tr><td>' . ($key + 1) . '</td><td>' . $tr[0] . '</td><td>' . $tr[1] . '</td><td>' . $tr[2] . '</td>
             <td>' . $tr[3] . '</td><td>' . $tr[4] . '</td></tr>';
     }
     echo '</tbody></table>';
 
-}
-else {
-?>
+} else {
+    ?>
     <h2>Система тестування вас вітає!</h2>
-    <form action="admin.php" method="post">
+    <form action="index.php" method="post">
         <span>Логін</span>
         <input type="text" name="login" placeholder="логін">
         <span>Пароль</span>
         <input type="password" name="password" placeholder="пароль">
         <input type="submit" value="Зайти">
     </form>
-<?php
+    <?php
     echo '<script>alert("Логін або пароль не вірні)</script>';
 }
 
 ?>
-
 
 </body>
 </html>

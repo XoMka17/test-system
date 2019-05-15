@@ -49,7 +49,10 @@ $tests = $a->getTests();
     <span>Посада</span>
     <input type="text" name="position" placeholder="Курсант С-55 групи" required>
     <span>Звання</span>
-    <input type="text" name="rank" placeholder="Старший солдат" required>
+    <select name="rank">
+        <option value="SOld">SOld</option>
+        <option value="Sold1213">Sold1213</option>
+    </select>
     <select name="test-id">
         <?php
         foreach ($tests as $test) {

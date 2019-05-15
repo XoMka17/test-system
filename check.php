@@ -56,3 +56,7 @@ foreach ($users as $user) {
 $data = ['score' => serialize($scoreArray)];
 
 $a->updateUser($userID,$data);
+
+?>
+
+<h1>Дякую, результати були збережені!</h1>
