@@ -8,7 +8,8 @@
 	    private $q_table    = "questions";
 	    public function __construct()
         {
-            $this->connect = new MySQL('localhost', 'root', '', 'teachertest');
+//            $this->connect = new MySQL('localhost', 'root', '', 'teachertest');
+            $this->connect = new MySQL('127.0.0.1', 'root', 'root', 'teachertest');
         }
 
         public function insertUser(array $data)
