@@ -43,7 +43,10 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
 
     ?>
 
-    <h2>Система тестування вас вітає!</h2>
+    <h2 class="head-title print">ЗАЛІКОВА ВІДОМІСТЬ</h2>
+    <h4 class="head-title-sub print">з предметів професійного навчання <?php echo date('d.m.Y'); ?> року</h4>
+
+    <h2  class="head-title">Система тестування вас вітає!</h2>
     <a href="addtest.php">Додати тест</a>
     <a href="addquestions.php">Додати запитання</a>
 
@@ -107,12 +110,12 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
         }
     }
 
-    echo '<table><thead><tr><td>#</td><td>ФІО</td><td>Підрозділ</td><td>Посада</td><td>Звання</td><td>Оцінка</td></tr></thead>';
+    echo '<table id="mainTable"><thead><tr><td>№ <br>з/п</td><td>В/зв</td><td>Прізвище та <br>ініціали</td><td>№ группи</td><td>Загальна оцінка</td></tr></thead>';
 
     echo '<tbody>';
     foreach ($table as $key => $tr) {
-        echo '<tr><td>' . ($key + 1) . '</td><td>' . $tr[0] . '</td><td>' . $tr[1] . '</td><td>' . $tr[2] . '</td>
-            <td>' . $tr[3] . '</td><td>' . $tr[4] . '</td></tr>';
+        echo '<tr><td>' . ($key + 1) . '</td><td>' . $tr[3] . '</td><td>' . $tr[0] . '</td>
+            <td>' . $tr[1] . '</td><td>' . $tr[4] . '</td></tr>';
     }
     echo '</tbody></table>';
 
@@ -132,5 +135,49 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
 
 ?>
 
+<!---->
+<!--<div id="print-content">-->
+<!--    <form>-->
+<!---->
+<!--        <input type="button" onclick="printTable('mainTable')" value="print a div!"/>-->
+<!--    </form>-->
+<!--</div>-->
+
+<button  onclick="javascript:window.print()" class="btn-print">Друкувати</button>
+
+<style>
+    .print {
+        display: none;
+    }
+    table {
+        text-align: center;
+        border-collapse: collapse;
+    }
+    table td {
+        padding: 5px;
+        border: 1px solid #000;
+    }
+
+    @media print {
+        .print, .print.head-title {
+            display: block;
+            text-align: center  ;
+        }
+        form, button, a, .head-title {
+            display: none;
+        }
+    }
+</style>
+<script type="text/javascript">
+
+    function printTable(divName) {
+
+        var printContents = document.getElementById(divName).innerHTML;
+        w=window.open();
+        w.document.write(printContents);
+        w.print();
+        w.close();
+    }
+</script>
 </body>
 </html>

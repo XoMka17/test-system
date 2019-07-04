@@ -23,6 +23,7 @@ if(isset($_POST['user']) && isset($_POST['division'])) {
 
             $completed = false;
             $testsScores = array_keys(unserialize($user['score']));
+
             foreach ($testsScores as $testScore) {
                 if($testScore == $testID) {
                     $completed = true;
@@ -73,6 +74,7 @@ foreach ($quests as $quest) {
     echo $quest['title'] . '<br>';
 
     foreach (unserialize($quest['value']) as $keyValue => $value ) {
+        var_dump($value);
         echo '<input type="radio" name="' . $quest['id'] . '" value="' . ($keyValue+1) . '" checked> ' . $value . '<br>';
     }
     echo '<br>';

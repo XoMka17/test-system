@@ -39,15 +39,15 @@ $tests = $a->getTests();
 <form action="test.php" method="post">
     <span>Прізвище Ім'я Побатькові</span>
     <input type="text" name="user" placeholder="Кальян Назар Анатолійович" required>
-    <span>Структурний підрозділ</span>
+    <span>№ группи</span>
     <select name="division">
         <option value ="C5 курс">C5 курс</option>
         <option value ="C6 курс">C6 курс</option>
         <option value ="C7 курс">C7 курс</option>
         <option value ="C8 курс">C8 курс</option>
     </select>
-    <span>Посада</span>
-    <input type="text" name="position" placeholder="Курсант С-55 групи" required>
+<!--    <span>Посада</span>-->
+<!--    <input type="text" name="position" placeholder="Курсант С-55 групи" required>-->
     <span>Звання</span>
     <select name="rank">
         <option value="SOld">SOld</option>
