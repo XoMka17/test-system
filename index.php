@@ -36,7 +36,7 @@ $tests = $a->getTests();
 </head>
 <body>
 <h2>Система тестування вас вітає!</h2>
-<form action="test.php" method="post">
+<form action="userpanel.php" method="post">
     <span>Прізвище Ім'я Побатькові</span>
     <input type="text" name="user" placeholder="Кальян Назар Анатолійович" required>
     <span>№ группи</span>
@@ -53,13 +53,13 @@ $tests = $a->getTests();
         <option value="SOld">SOld</option>
         <option value="Sold1213">Sold1213</option>
     </select>
-    <select name="test-id">
+  <!--  <select name="test-id">
         <?php
         foreach ($tests as $test) {
             echo '<option value ="' . $test['id'] . '">' . $test['title'] . '</option>';
         }
         ?>
-    </select>
+    </select> -->
     <input type="submit" value="Почати">
 </form>
 </body>
