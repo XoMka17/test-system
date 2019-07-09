@@ -37,7 +37,7 @@ $tests = $a->getTests();
 <body>
 <h2>Система тестування вас вітає!</h2>
 <form>
-   <p> ПІБ: <?php echo $_POST['name']; ?>.</p>
+   <p> ПІБ: <?php echo $_POST['user']; ?>.</p>
     <p> Підрозділ: <?php echo $_POST['division']; ?>.</p>
    <p> Звання: <?php echo $_POST['rank']; ?> </p>
 </form>
