@@ -17,6 +17,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Система тестування</title>
 
+    <!--    <link rel="stylesheet" href="../style.css">-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
 </head>
 <body>
 
@@ -41,14 +44,19 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
     $a = new DatabaseModel();
     $tests = $a->getTests();
 
+
+    $division_list = $a->getDivision();
+    $posada_list = $a->getPosada();
     ?>
 
     <h2 class="head-title print">ЗАЛІКОВА ВІДОМІСТЬ</h2>
     <h4 class="head-title-sub print">з предметів професійного навчання <?php echo date('d.m.Y'); ?> року</h4>
 
-    <h2  class="head-title">Система тестування вас вітає!</h2>
+    <h2 class="head-title">Система тестування вас вітає!</h2>
     <a href="addtest.php">Додати тест</a>
     <a href="addquestions.php">Додати запитання</a>
+    <a href="adddivision.php">Додати групу</a>
+    <a href="addposada.php">Додати посаду</a>
 
     <form action="index.php" method="post">
         <input type="hidden" name="exit" value="1">
@@ -60,18 +68,22 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
     <form action="index.php" method="post">
         <span>Тест</span>
         <select name="test">
+
             <?php
             foreach ($tests as $test) {
                 echo '<option value ="' . $test['id'] . '">' . $test['title'] . '</option>';
             }
             ?>
         </select>
-        <select name="division">
-            <option value="all">Усі</option>
-            <option value="C5 курс">C5 курс</option>
-            <option value="C6 курс">C6 курс</option>
-            <option value="C7 курс">C7 курс</option>
-            <option value="C8 курс">C8 курс</option>
+
+        <select class="form-item-field" name="division">
+            <?php foreach ($division_list as $division_item):
+                if ($division_item['name'] == '*') {
+                    $division_item['id'] = $division_item['name'];
+                }
+                ?>
+                <option value="<?= $division_item['id']; ?>"><?= $division_item['name']; ?></option>
+            <?php endforeach; ?>
         </select>
         <input type="submit" value="Зайти">
     </form>
@@ -88,7 +100,7 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
 
         $userTable = [];
         foreach ($users as $user) {
-            if ($user['division'] == $division || $division == 'all') {
+            if ($user['division'] == $division || $division == '*') {
 
                 $user['score'] = unserialize($user['score']);
 
@@ -104,7 +116,12 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
                 }
 
                 if ($score !== false) {
-                    array_push($table, [$user['user'], $user['division'], $user['posada'], $user['rang'], $score]);
+                    array_push($table, [
+                            'name'     => $user['user'],
+                            'posada'   => $a->getPosada($user['posada'])['name'],
+                            'division' => $a->getDivision($user['division'])['name'],
+                            'score'    => $score]
+                    );
                 }
             }
         }
@@ -114,10 +131,12 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
 
     echo '<tbody>';
     foreach ($table as $key => $tr) {
-        echo '<tr><td>' . ($key + 1) . '</td><td>' . $tr[3] . '</td><td>' . $tr[0] . '</td>
-            <td>' . $tr[1] . '</td><td>' . $tr[4] . '</td></tr>';
+        echo '<tr><td>' . ($key + 1) . '</td><td>' . $tr['posada'] . '</td><td>' . $tr['name'] . '</td>
+            <td>' . $tr['division'] . '</td><td>' . $tr['score'] . '</td></tr>';
     }
     echo '</tbody></table>';
+
+    echo '<button  onclick="javascript:window.print()" class="btn-print">Друкувати</button>';
 
 } else {
     ?>
@@ -143,16 +162,16 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
 <!--    </form>-->
 <!--</div>-->
 
-<button  onclick="javascript:window.print()" class="btn-print">Друкувати</button>
-
 <style>
     .print {
         display: none;
     }
+
     table {
         text-align: center;
         border-collapse: collapse;
     }
+
     table td {
         padding: 5px;
         border: 1px solid #000;
@@ -161,8 +180,9 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
     @media print {
         .print, .print.head-title {
             display: block;
-            text-align: center  ;
+            text-align: center;
         }
+
         form, button, a, .head-title {
             display: none;
         }
@@ -173,7 +193,7 @@ if (($login == 'admin' && $password = '123') || $_SESSION['isAuth'] == 1) {
     function printTable(divName) {
 
         var printContents = document.getElementById(divName).innerHTML;
-        w=window.open();
+        w = window.open();
         w.document.write(printContents);
         w.print();
         w.close();

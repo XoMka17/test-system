@@ -60,3 +60,5 @@ $a->updateUser($userID,$data);
 ?>
 
 <h1>Дякую, результати були збережені!</h1>
+
+<?php header('Location: ./userpanel.php'); ?>

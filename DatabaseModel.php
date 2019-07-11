@@ -37,10 +37,16 @@ class DatabaseModel
 
     }
 
-    public function getDivision()
+    public function getDivision( $divisionId = -1)
     {
         try {
-            $data = $this->connect->get($this->division_table);
+            if($divisionId != -1) {
+                $data = $this->connect->where('id', $divisionId)->get($this->division_table);
+                $data = $data[0];
+            }
+            else {
+                $data = $this->connect->get($this->division_table);
+            }
             return $data;
         } catch (Exception $e) {
             return 'Caught exception: ' . $e->getMessage();
@@ -66,10 +72,16 @@ class DatabaseModel
 
     }
 
-    public function getPosada()
+    public function getPosada( $posadaId = -1)
     {
         try {
-            $data = $this->connect->get($this->posada_table);
+            if($posadaId != -1) {
+                $data = $this->connect->where('id', $posadaId)->get($this->posada_table);
+                $data = $data[0];
+            }
+            else {
+                $data = $this->connect->get($this->posada_table);
+            }
             return $data;
         } catch (Exception $e) {
             return 'Caught exception: ' . $e->getMessage();
@@ -96,10 +108,14 @@ class DatabaseModel
     public function getQuestions(int $testId, int $quantity = 10)
     {
         try {
+
             $data = $this->connect->where('test_id', $testId)->get($this->q_table);
 
             $dataOut = [];
-            if (count($data) > $quantity) {
+            if($quantity == -1) {
+                $dataOut = $data;
+            }
+            else if (count($data) > $quantity) {
                 for ($i = 0; $i < $quantity; $i++) {
                     $cutElement = rand(0, (count($data) - 1));
                     array_push($dataOut, $data[$cutElement]);
@@ -158,10 +174,17 @@ class DatabaseModel
         }
     }
 
-    public function getUsers()
+    public function getUsers(array $userInfo = ['id' => '', 'name' => ''])
     {
         try {
-            $data = $this->connect->get($this->user_table);
+            if ($userInfo['id']) {
+                $data = $this->connect->where('id', $userInfo['id'])->get($this->user_table);
+            } else if ($userInfo['name']) {
+                $data = $this->connect->where('user', $userInfo['name'])->get($this->user_table);
+            } else {
+                $data = $this->connect->get($this->user_table);
+            }
+
             return $data;
         } catch (Exception $e) {
             return 'Caught exception: ' . $e->getMessage();

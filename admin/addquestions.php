@@ -12,6 +12,7 @@
 
 </head>
 <body>
+<a href="index.php">Назад</a>
     <form action="questionToTestDB.php" method="post">
         <table>
             <select name='test_id'>

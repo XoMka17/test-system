@@ -6,22 +6,24 @@
  * Time: 11:22
  */
 
-require_once ("DatabaseModel.php");
+require_once("DatabaseModel.php");
 
 $a = new DatabaseModel();
 
-if(isset($_GET['e'])) {
+if (isset($_GET['e'])) {
     $error = $_GET['e'];
 
-    if($error == 1) {
+    if ($error == 1) {
         echo '<script>alert("Заповніть форму!")</script>';
-    }
-    else if($error == 2) {
+    } else if ($error == 2) {
         echo '<script>alert("Тест пройдено!")</script>';
     }
 }
 
 $tests = $a->getTests();
+
+$division_list = $a->getDivision();
+$posada_list = $a->getPosada();
 ?>
 
 <!doctype html>
@@ -33,34 +35,39 @@ $tests = $a->getTests();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Система тестування</title>
 
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
-<h2>Система тестування вас вітає!</h2>
-<form action="userpanel.php" method="post">
-    <span>Прізвище Ім'я Побатькові</span>
-    <input type="text" name="user" placeholder="Кальян Назар Анатолійович" required>
-    <span>№ группи</span>
-    <select name="division">
-        <option value ="C5 курс">C5 курс</option>
-        <option value ="C6 курс">C6 курс</option>
-        <option value ="C7 курс">C7 курс</option>
-        <option value ="C8 курс">C8 курс</option>
-    </select>
-<!--    <span>Посада</span>-->
-<!--    <input type="text" name="position" placeholder="Курсант С-55 групи" required>-->
-    <span>Звання</span>
-    <select name="rank">
-        <option value="SOld">SOld</option>
-        <option value="Sold1213">Sold1213</option>
-    </select>
-  <!--  <select name="test-id">
-        <?php
-        foreach ($tests as $test) {
-            echo '<option value ="' . $test['id'] . '">' . $test['title'] . '</option>';
-        }
-        ?>
-    </select> -->
-    <input type="submit" value="Почати">
+
+<h2 class="head-title">Система тестування вас вітає!</h2>
+<form action="userpanel.php" method="post" class="form">
+    <div class="form-item">
+        <span class="form-item-title">Прізвище Ім'я Побатькові</span>
+        <input class="form-item-field" type="text" name="user" placeholder="" required>
+    </div>
+
+    <div class="form-item">
+        <span class="form-item-title">Група</span>
+        <select class="form-item-field" name="division">
+            <?php foreach ($division_list as $division_item): ?>
+                <option value="<?= $division_item['id']; ?>"><?= $division_item['name']; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <div class="form-item">
+        <span class="form-item-title">Звання</span>
+        <select class="form-item-field" name="posada">
+            <?php foreach ($posada_list as $posada_item): ?>
+                <option value="<?= $posada_item['id']; ?>"><?= $posada_item['name']; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <div class="form-item">
+        <input type="submit" value="Почати">
+    </div>
 </form>
 </body>
 </html>

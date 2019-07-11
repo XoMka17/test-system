@@ -1,0 +1,82 @@
+body{
+	font-family: 'Montserrat', sans-serif;
+font-size:17px;
+    background-color: rgba(61, 241, 84, 0.2);
+
+}
+select{
+	width: 150px;
+	font-size:13px;
+}
+/* Базовые стили формы */
+form{
+  margin:0 auto;
+  max-width:45%;
+  box-sizing:border-box;
+  padding:40px;
+  border-radius:5px; 
+  background:RGBA(255,255,255,1);
+  -webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);        
+  box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);  
+}
+/* Стили полей ввода */
+.textbox{
+  height:50px;
+  width:100%;
+  border-radius:3px;
+  border:rgba(0,0,0,.3) 2px solid;
+  box-sizing:border-box;
+font-family: 'Montserrat', sans-serif;
+
+  font-size:14px; 
+  padding:10px;
+  margin-bottom:30px;  
+}
+.message:focus,
+.textbox:focus{
+  outline:none;
+   border:rgba(24,149,215,1) 2px solid;
+   color:rgba(24,149,215,1);
+}
+
+/* Базовые стили кнопки */
+.button{
+  height:50px;
+  width:100%;
+  border-radius:3px;
+  border:rgba(0,0,0,.3) 0px solid;
+  box-sizing:border-box;
+  padding:10px;
+  background:#90c843;
+  color:#FFF;
+ font-family: 'Montserrat', sans-serif;
+
+  font-weight:400;
+  font-size: 16pt;
+  transition:background .4s;
+  cursor:pointer;
+}
+/* Изменение фона кнопки при наведении */
+.button:hover{
+	color: #d8fcdc;
+  background:#80b438;
+}	
+
+
+.head-title, .head-subtitle {
+    text-align: center;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.form-item-field {
+    width: 60%;
+}
